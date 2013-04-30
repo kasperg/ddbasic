@@ -134,7 +134,6 @@
 }
 
 .pane-ding-news-ding-news-library-list {
-  border-bottom: 1px solid $gray-light;
   margin-bottom: $default-spacing;
   padding-bottom: $default-spacing;
 }
@@ -147,6 +146,19 @@
 
 .library-title {
   @extend .block-title;
+}
+
+.field-name-field-ding-library-title-image {
+  margin-bottom: $default-spacing;
+}
+
+.pane-ding-news-ding-news-library-list,
+.pane-ding-event-ding-event-library-page-list {
+  h2 {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: $default-spacing;
+    padding-bottom: $default-spacing / 2;
+  }
 }
 
 .library-menu {

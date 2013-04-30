@@ -135,6 +135,7 @@
   border-bottom: 1px solid $gray-light;
   margin-bottom: 0;
   padding-bottom: $default-spacing / 2;
+  @include rem('font-size', $theme-font-size * 1.3);
 }
 
 .sub-menu {
