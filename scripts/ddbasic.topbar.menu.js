@@ -118,11 +118,23 @@
     // Toggle header off to begin with.
     ddbasic_header_wrapper.hide();
 
+
+    // TEMPORARY
+    // User test! Remove this if it is here after 18/6-2013, do it! :)
+
     // Show search on frontpage and search pages.
     var path = window.location.pathname;
-    if (path.indexOf('/search', 0) === 0 || path === '/') {
+
+    if (path.indexOf('/search', 0) === 0) {
+      $('#search-block-form').clone().insertBefore('.pane-ting-search-sort-form');
+    }
+
+    if (path === '/') {
       $('a.topbar-link-search').click();
     }
+
+    // TEMPORARY end
+
 
     /*
      * Add .fixed class to site header upon scroll
@@ -152,10 +164,30 @@
       if (top > header_pos_relative && !header_fixed) {
         header.addClass('js-fixed');
         header_fixed = true;
+
+        // TEMPORARY
+        // User test! Remove this if it is here after 18/6-2013, do it! :)
+
+        if ($('.search').hasClass('js-topbar-toggled')) {
+          $('.header-wrapper').slideToggle('fast');
+          $('a.topbar-link-search').removeClass('active');
+        }
+
+        // TEMPORARY end
       }
       else if (top < header_pos_relative && header_fixed) {
         header.removeClass('js-fixed');
         header_fixed = false;
+
+        // TEMPORARY
+        // User test! Remove this if it is here after 18/6-2013, do it! :)
+
+        if ($('.search').hasClass('js-topbar-toggled')) {
+          $('.header-wrapper').show();
+          $('a.topbar-link-search').addClass('active');
+        }
+
+        // TEMPORARY end
       }
     });
 

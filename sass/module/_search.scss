@@ -7,6 +7,62 @@
 
 
 
+/* TEMPORARY styling start
+ *
+ * User test! Remove this if it is here after 18/6-2013, do it! :)
+   ========================================================================== */
+
+.primary-content {
+  .pane-ting-search {
+    display: none;
+  }
+
+  #search-block-form {
+    background-color: $gray-light;
+    clear: both;
+    margin-bottom: $large-spacing;
+    overflow: hidden;
+    padding: $large-spacing;
+
+    .form-item-search-block-form,
+    .form-actions {
+      float: left;
+      margin-bottom: 0;
+    }
+
+    .form-item-search-block-form {
+      width: 91%;
+    }
+
+    .form-actions {
+      width: 7%;
+    }
+
+    label,
+    .field-prefix {
+      display: none;
+    }
+
+    #edit-search-block-form--2 {
+      border: 1px solid $gray;
+      font-size: $font-size-large;
+      margin-bottom: 0;
+    }
+
+    #edit-submit--2 {
+      font-size: $font-size-large;
+      padding-top: $medium-spacing;
+      padding-right: $large-spacing;
+      padding-bottom: $medium-spacing;
+      padding-left: $large-spacing;
+    }
+  }
+}
+
+/* TEMPORARY styling end */
+
+
+
 /* Variables
    ========================================================================== */
 
