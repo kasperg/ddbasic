@@ -1,7 +1,9 @@
 (function($) {
 
-  /*
+  /**
    * Toggle opening hours
+   * 
+   * Why is is a part of the theme instead of the module?
    */
   function toggle_opening_hours() {
     // Create toggle link

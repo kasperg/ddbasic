@@ -84,6 +84,8 @@ hide($content['links']);
 
 /*
  * If displaying teaser mode we need the node title in the render array
+ *
+ * Could this be moved to a preprocess function?
  */
 if ($view_mode == 'teaser') {
   $content['group_ding_library_right_column']['title'][0]['#markup'] = '<h2 class="page-title library-title"><a href="' . $node_url . '">' . $title . '</a></h2>';

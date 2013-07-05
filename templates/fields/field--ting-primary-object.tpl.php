@@ -2,7 +2,7 @@
 
 /**
  * @file
- *
+ * Please add a short description of this file.
  */
 ?>
 <?php foreach ($items as $delta => $item): ?>

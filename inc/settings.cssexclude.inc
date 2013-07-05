@@ -3,6 +3,9 @@
 /**
  * @file
  * Generate settings for the CSS exclude form.
+ *
+ * TODO: Why is this not defined as one or more functions?
+ * The current approach is quite messy.
  */
 
 // Get the relevent CSS file data for building the form.

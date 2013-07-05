@@ -20,6 +20,7 @@ function ddbasic_get_css_files($theme_name) {
   $styles = &drupal_static(__FUNCTION__, array());
   if (empty($styles)) {
     if ($cache = cache_get('ddbasic_get_css_files')) {
+      // Why not chech for expiry here?
       $styles = $cache->data;
     }
     else {
@@ -112,7 +113,7 @@ function ddbasic_get_css_files($theme_name) {
  * @param $theme_name, usually the active theme.
  */
 function ddbasic_get_info_trail($theme_name) {
-  $info_trail = drupal_static(__FUNCTION__, array());
+  $info_trail = &drupal_static(__FUNCTION__, array());
   if (empty($info_trail)) {
     $lt = list_themes();
 

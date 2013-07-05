@@ -18,6 +18,7 @@
  *   Properties used: #required, #title, #id, #value, #description.
 */
 
+// Lots of code here. Could it be moved to a preprocess function?
 // If title and required marker are both empty, output no label.
 if ((!isset($element['#title']) || $element['#title'] === '') && empty($element['#required'])) {
   return '';

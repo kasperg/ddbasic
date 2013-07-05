@@ -4,6 +4,9 @@
  * @file
  * DDBasic's theme implementation to display event nodes.
  *
+ * TODO: Could all the node templates be moved to their own folder? It seems
+ * like a nice structure.
+ *
  * Available variables:
  * - $title: the (sanitized) title of the node.
  * - $content: An array of node items. Use render($content) to print them all,

@@ -1,9 +1,13 @@
 /*!
+ *
  * jQuery Cookie Plugin v1.3.1
  * https://github.com/carhartl/jquery-cookie
  *
  * Copyright 2013 Klaus Hartl
  * Released under the MIT license
+ *
+ * TODO: jQuery.Cookie is also included other places in Ding2.
+ * We should keep it one place and use libraries API to load it.
  */
 (function (factory) {
 	if (typeof define === 'function' && define.amd) {

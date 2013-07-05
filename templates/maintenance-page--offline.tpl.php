@@ -10,7 +10,7 @@
  * @see template_preprocess()
  * @see template_preprocess_maintenance_page()
  */
-
+  // Lots of code here. Could it be moved to a preprocess function?
   // If your theme is set to display the site name, uncomment this line and replace the value:
   $site_name = 'DDBasic bibliotek';
 

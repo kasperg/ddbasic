@@ -32,6 +32,7 @@ switch ($type) {
     print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available'))));
     break;
   default:
+    // Why would we want to print -nothing-? What value does it provide for the user?
     print '-nothing-';
     break;
 }

@@ -2,16 +2,13 @@
 
 /**
  * Preprocess and Process Functions SEE: http://drupal.org/node/254940#variables-processor
- * 1. Rename each function and instance of "adaptivetheme_subtheme" to match
- *    your subthemes name, e.g. if your theme name is "footheme" then the function
- *    name will be "footheme_preprocess_hook". Tip - you can search/replace
- *    on "adaptivetheme_subtheme".
- * 2. Uncomment the required function to use.
- * 3. Read carefully, especially within adaptivetheme_subtheme_preprocess_html(), there
- *    are extra goodies you might want to leverage such as a very simple way of adding
- *    stylesheets for Internet Explorer and a browser detection script to add body classes.
  */
 
+// In general there are a lot of code here and no apparent structure. 
+// Is there a way to seperate it into groups/files á la theme function implementations,
+// JS/CSS trickery etc?
+
+// Why is all this in global scope?
 global $theme_key, $path_to_ddbasic_core;
 $theme_key = $GLOBALS['theme_key'];
 $path_to_ddbasic_core = drupal_get_path('theme', 'ddbasic');
@@ -33,10 +30,6 @@ function ddbasic_preprocess_html(&$vars) {
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
 
-  // Build an array of polyfilling scripts
-  $vars['polyfills_array'] = '';
-  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
-
   // Load ddbasic plugins
   ddbasic_load_plugins();
 
@@ -54,10 +47,13 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php
  */
 function ddbasic_process_html(&$vars) {
+  // Build an array of polyfilling scripts
+  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name);
+
   // This code is copied from Adaptive Theme, at_core/inc/process.inc.
   // It wraps the required polyfills scripts into a conditional comment.
   if (!empty($vars['polyfills_array'])) {
-    $vars['polyfills'] = drupal_static('ddbasic_process_html_polyfills');
+    $vars['polyfills'] = &drupal_static('ddbasic_process_html_polyfills');
     if (empty($vars['polyfills'])) {
       $polyfills = array();
       foreach ($vars['polyfills_array'] as $key => $value) {
@@ -129,7 +125,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login_block':
 
       unset($form['name']['#title']);
-      $form['name']['#title'] = t('Loan or social security number');
+      $form['name']['#title'] = t('Loaner or social security number');
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
       $form['name']['#attributes']['placeholder'] = t('The number is 10 digits');
       $form['name']['#type'] = 'password';
@@ -140,6 +136,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['pass']['#attributes']['placeholder'] = t('Pincode is 4 digits');
 
       unset($form['links']);
+      // Why do we need to remove OpenID links. AFAIK we do not use OpenID at all in Ding?
       //Temporary hack to get rid of open id links
       unset($form['openid_links']);
       unset($form['#attached']['js']);
@@ -276,7 +273,7 @@ function ddbasic_preprocess_user_picture(&$variables) {
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
   // Opening hours on library list. but not on the search page.
-  $path = drupal_get_path_alias();
+  $path = current_path();
   if (!(strpos($path, 'search', 0) === 0)) {
     $hooks = theme_get_registry(FALSE);
     if (isset($hooks['opening_hours_week']) && $variables['type'] == 'ding_library') {
@@ -289,7 +286,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
   // Add event node specific ddbasic variables
   if (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'ding_event') {
-
+    // This might be a matter of preferences but why is this not handled as a field?
     // Add event location variables
     $event_location = 'location';
     if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
@@ -303,6 +300,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
     $variables['ddbasic_event_location'] = $event_location;
 
+    // This might be a matter of preferences but why is this not handled as a field?
     // Add event date to variables. A render array is created based on the date format "date_only"
     $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings'=>array('format_type' => 'date_only', 'fromto' => 'both')) );
     $variables['ddbasic_event_date'] = $event_date_ra[0]['#markup'];
@@ -312,6 +310,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
 
+  // This might be a matter of preferences but why is this not handled as a field?
   $tags_fields = array(
     'event',
     'news',
@@ -332,10 +331,11 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
-
+  // This might be a matter of preferences but why is this not handled as a field?
   // Add updated to variables.
   $variables['ddbasic_updated'] = t('!datetime', array('!datetime' => format_date($variables['node']->changed, $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
 
+  // Why is this needed?
   // Modified submitted variable.
   if ($variables['display_submitted']) {
     $variables['submitted'] = t('!datetime', array('!datetime' => format_date($variables['created'], $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
@@ -365,7 +365,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
     // Add suggestion that only hits the search result page.
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
 
-
     switch ($vars['element']['#field_name']) {
       case 'ting_author':
       case 'ting_abstract':
@@ -383,9 +382,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   if ($vars['element']['#field_type'] == 'ting_collection_types' &&
       $vars['element']['#formatter'] == 'ding_availability_types') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
-
-    // Add class to availability list.
-
   }
 }
 
@@ -397,6 +393,7 @@ function ddbasic_css_alter(&$css) {
   global $theme_key;
 
   // Never allow this to run in our admin theme and only if the extension is enabled.
+  // What extension?
   if (theme_get_setting('enable_exclude_css') === 1) {
 
     // Get $css_data from the cache
@@ -433,6 +430,9 @@ function ddbasic_css_alter(&$css) {
  * Render callback.
  *
  * Remove panels div separator.
+ * 
+ * As far as I remember there is a region style which does not include separators. 
+ * Why not use that instead of removing the possibility entirely?
  */
 function ddbasic_panels_default_style_render_region($vars) {
   $output = '';
@@ -445,7 +445,6 @@ function ddbasic_panels_default_style_render_region($vars) {
  * Implements theme_menu_link().
  */
 function ddbasic_menu_link($vars) {
-
   // Check if the class array is empty.
   if(empty($vars['element']['#attributes']['class'])){
     unset($vars['element']['#attributes']['class']);
@@ -454,7 +453,6 @@ function ddbasic_menu_link($vars) {
   $element = $vars['element'];
 
   $sub_menu = '';
-
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
@@ -476,10 +474,11 @@ function ddbasic_menu_link($vars) {
  * Add specific markup for topbar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
-
   // Run classes array through our custom stripper.
   $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
+  // There is some duplicated code here and in ddbasic_menu_link. 
+  // Could this be refactored?
   // Check if the class array is empty.
   if(empty($vars['element']['#attributes']['class'])){
     unset($vars['element']['#attributes']['class']);
@@ -488,12 +487,11 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
   $element = $vars['element'];
 
   $sub_menu = '';
-
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
 
-  // Add default class to a tag
+  // Add default class to a tag ddbasic_menu_link
   $element['#localized_options']['attributes']['class'] = array(
     'menu-item',
   );
@@ -537,8 +535,8 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
  *   An array of class attributes.
  */
 function ddbasic_remove_default_link_classes($classes) {
-
   if (!isset($classes)) {
+    // Returning false seems like a bad idea. 
     return false;
   }
 
@@ -563,8 +561,7 @@ function ddbasic_remove_default_link_classes($classes) {
   }
 
   // Remove the classes.
-  if($remove){
-    //$vars['element']['#attributes']['class'] = array_diff($vars['element']['#attributes']['class'],$remove);
+  if ($remove) {
     $classes = array_diff($classes,$remove);
   }
 
@@ -581,8 +578,6 @@ function ddbasic_remove_default_link_classes($classes) {
 /**
  * Allows us to add script plugins to the theme via theme settings.
  * Ex. add a javascript depending on the settings in the theme.
- *
- * @param $theme_name
  */
 function ddbasic_load_plugins() {
   global $path_to_ddbasic_core;
@@ -637,6 +632,8 @@ function ddbasic_theme_script($filepath) {
  * Adaptivetheme provides a way to load scripts inside conditional comments.
  * This function will return a string for printing into a template, its
  * akin to a real theme_function but its not.
+ * If this is copy/pasted from AdaptiveTheme then please include where it was 
+ * taken from.
  *
  * @param $ie_scripts, an array of themed scripts.
  */
@@ -656,7 +653,7 @@ function ddbasic_theme_conditional_scripts($ie_scripts) {
 
 
 /**
- * Polyfill is used to enable HTML5 on browsers who doesn't natively support it.
+ * Polyfills are used to enable HTML5 on browsers which do not natively support it.
  * Polyfill adds the missing functionality by 'filling' in scripts that add the
  * HTML5 functionality the browser doesn't offer.
  *
@@ -688,7 +685,7 @@ function ddbasic_load_polyfills($theme_name) {
     $polly_settings_array = array(
       'load_html5js',
       'load_selectivizr',
-      'load_scalefixjs', // loaded directly by polly_wants_a_cracker(), its never returned
+      'load_scalefixjs', // loaded directly by polly_wants_a_cracker(), its never returned <-- WTF?
     );
     foreach ($polly_settings_array as $polly_setting) {
       $polly[$polly_setting] = theme_get_setting($polly_setting, $theme_name);
@@ -719,6 +716,7 @@ function ddbasic_load_polyfills($theme_name) {
  * @param $polly
  * @param $theme_name
  */
+// Whats up with the function name?
 function ddbasic_polly_wants_a_cracker($polly, $theme_name) {
   global $path_to_ddbasic_core;
 
@@ -793,7 +791,6 @@ function ddbasic_get_info($theme_name) {
  * Implements theme_item_list().
  *
  * This is the default theme function. With the wrapper div removed.
- *
  */
 function ddbasic_item_list($variables) {
   $items = $variables['items'];

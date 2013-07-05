@@ -5,6 +5,7 @@
  *
  * This file is not used and is here as a starting point for customization only.
  * @see theme_field()
+ * This file *is* used?
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.

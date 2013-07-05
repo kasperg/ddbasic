@@ -1,7 +1,10 @@
 <?php
 /**
 * @file field.tpl.php
-* Default template implementation to display the value of a field.
+* I guess this is not the default implementation. Please specify how it 
+* deviates and why.
+* Also: Why is this not in the fields folder?
+*
 *
 * This file is not used and is here as a starting point for customization only.
 * @see theme_field()

@@ -3,6 +3,8 @@
  * @file
  * Default theme implementation to wrap menu blocks.
  *
+ * This is *not* the default theme implementation.
+ *
  * Available variables:
  * - $content: The renderable array containing the menu.
  * - $classes: A string containing the CSS classes for the DIV tag. Includes:

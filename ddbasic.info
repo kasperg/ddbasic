@@ -15,6 +15,8 @@
   stylesheets[all][] = css/system.messages.css
   stylesheets[all][] = css/addressfield.css
   stylesheets[all][] = css/date.css
+  ; // TODO We should move all the external libraries to a subfolder or even
+  ; // better use Libraries API.
   stylesheets[all][] = css/jquery.ui.theme.css
   stylesheets[all][] = css/jquery.ui.theme.min.css
   stylesheets[all][] = css/jquery.ui.dialog.css
@@ -22,6 +24,8 @@
 
 
 ;----------// JavaScripts
+; // TODO We should move all the external libraries to a subfolder or even
+; // better use Libraries API 
   scripts[] = scripts/jquery.cookie.js
   scripts[] = scripts/ddbasic.topbar.menu.js
   scripts[] = scripts/ddbasic.common.js

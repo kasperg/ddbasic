@@ -3,6 +3,8 @@
  * @file panels-pane--primary-links.tpl.php
  * Main panel pane template
  *
+ * This is not the main panels pane template.
+ *
  * Variables available:
  * - $pane->type: the content type inside this pane
  * - $pane->subtype: The subtype, if applicable. If a view it will be the

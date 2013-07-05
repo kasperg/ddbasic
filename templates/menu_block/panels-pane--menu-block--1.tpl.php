@@ -1,6 +1,10 @@
 <?php
 /**
  * @file panels-pane--primary-links.tpl.php
+ *
+ * There is lots of duplicated in all these menu_block templates. Could it be 
+ * refactored? 
+ *
  * Main panel pane template
  *
  * Variables available:

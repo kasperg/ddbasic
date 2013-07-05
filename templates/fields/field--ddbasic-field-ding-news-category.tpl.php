@@ -3,6 +3,7 @@
 /**
  * @file field--ddbasic-field-ding-event-category.tpl.php
  * Template for ddbasic field implementation to display the value of a field.
+ * This is not the default field implementation?
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.

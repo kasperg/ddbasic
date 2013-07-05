@@ -2,6 +2,11 @@
 
 /**
  * @file
+ * Since we provide our own theme implementation this is *not* the default.
+ * Please specify how it deviates?
+ *
+ * Why is this in a folder on its own?
+ *
  * Default theme implementation to provide an HTML container for comments.
  *
  * Available variables:

@@ -3,6 +3,7 @@
 /**
  * @file field.tpl.php
  */
+// Whats up with the content class?
 ?>
 <div class="availability content">
   <?php if (!$label_hidden): ?>

@@ -17,7 +17,7 @@
  *   data including the contexts and all of the other panes being displayed.
  * 
  * Changed: Add t() function to pane title.
- * 
+ * TODO: If we change nothing but wrap title in t why not just use a preprocess function?
  */
 ?>
 <?php if ($pane_prefix): ?>
